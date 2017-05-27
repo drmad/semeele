@@ -28,8 +28,8 @@ The class `drmad\semeele\Document` is a `Node` but creates the [XML declaration]
 ## Example
 
 ```php
-require 'semele/Node.php';
-require 'semele/Document.php';
+require 'semeele/Node.php';
+require 'semeele/Document.php';
 
 $xml = new drmad\semeele\Document('html', '1.0', 'utf-8');
 $xml->child('head')
