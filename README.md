@@ -1,7 +1,7 @@
 # Semeele
 Extremely simple and minimalistic XML generator for PHP. Really, very simple.
 
-I was using the [native XML libraries](http://php.net/manual/es/refs.xml.php) for creating a... XML document. But they are _extremely verbose_. So I coded this in about four hours.
+I was using the [native XML libraries](http://php.net/manual/es/refs.xml.php) to create an... XML document. But they are _extremely verbose_. So I coded this in about four hours.
 
 It works with PHP 5.6 and newer versions.
 
