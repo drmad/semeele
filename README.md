@@ -3,6 +3,8 @@ Extremely simple and minimalistic XML generator for PHP. Really, very simple.
 
 I was using the [native XML libraries](http://php.net/manual/es/refs.xml.php) for creating a... XML document. But they are _extremely verbose_. So I coded this in about four hours.
 
+It works with PHP 5.6 and newer versions.
+
 ## Usage
 
 The base class is `drmad\semeele\Node`. Its constructor accepts three parameters:
@@ -11,7 +13,7 @@ The base class is `drmad\semeele\Node`. Its constructor accepts three parameters
 * `$content`: Optional. If an array is passed, is used instead the next parameter.
 * `$attributes`: Optiona. Array with `['atribute name' => 'attribute value']`.
 
-This class has two main methods: `child()` and `add()`. Both returns a new Node object (the newly created node, and the parent node, respectivly), for chaining. All the arguments are passed to the Node constructor.
+This class has two main methods: `child()` and `add()`. Both returns a new Node object (the newly created node, and the parent node, respectively), for chaining. All the arguments are passed to the Node constructor.
 
 A method `parent()` is used for 'going up the chain': it returns the parent node, so you can create a new child with `child()`, for instance.
 
