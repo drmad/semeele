@@ -37,7 +37,7 @@ class Node
     }
 
     /**
-     * Adds a child, returns this (parent) node.
+     * Adds a child, returns this node.
      */
     public function add(...$params)
     {
@@ -47,7 +47,7 @@ class Node
 
     /**
      * Appends a existent child node and all its descendants. Returns
-     * this (parent) node.
+     * this node.
      */
     public function append(Node $node)
     {
@@ -70,6 +70,15 @@ class Node
         }
         $this->attributes += $new_attributes;
 
+        return $this;
+    }
+
+    /**
+     * Adds a comment child node. Return this node.
+     */
+    public function comment($text)
+    {
+        $this->children[] = (new Comment($text))->setParent($this);
         return $this;
     }
 
@@ -130,13 +139,6 @@ class Node
         
         $tagname = $this->nodeName;
         if ($this->attributes) {
-            
-            /*$attrs = [];
-            foreach ($this->attributes as $name => $value) {
-                $attr[] = $name . '="' . $value .'"';
-            }
-            $tagname .= ' ' . join(' ', $attr);*/
-
             $tagname .= ' ' . $this->genAttributes($this->attributes);
         }
 
@@ -154,7 +156,7 @@ class Node
 
             $xml .= '</' . $this->nodeName . '>';
         } else {
-            $xml = '<' . $tagname . '/>';
+            $xml = '<' . $tagname . ' />';
         }
 
         return $xml;
