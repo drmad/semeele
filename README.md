@@ -45,7 +45,7 @@ Other methods are:
 * `parent()`: Used for 'going up the chain': it returns the parent node, so you can create a new child with `child()`, for instance.
 * `append(Node $node)`: Adds an already created node and its children to this node child list. Returns this node.
 * `attr($name, $value)`: Adds new properties to this node. You can specify both arguments, or pass an associative array with multiple properties as first argument.
-* `comment($text)`: Adds a new `Comment` node, returns this node.
+* `comment($text)`: Adds a new `drmad\semeele\Comment` node, returns this node.
 
 The final XML is generated with the `getXML()` method, or just using the object in a `string` context.
 
