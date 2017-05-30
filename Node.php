@@ -6,12 +6,12 @@ namespace drmad\semeele;
  */
 class Node
 {
-    private $parent;
-    private $children = [];
+    protected $parent;
+    protected $children = [];
     
-    private $nodeName;
-    private $attributes = [];
-    private $content;
+    protected $nodeName;
+    protected $attributes = [];
+    protected $content;
 
     /**
      * Constructor
@@ -46,6 +46,34 @@ class Node
     }
 
     /**
+     * Appends a existent child node and all its descendants. Returns
+     * this (parent) node.
+     */
+    public function append(Node $node)
+    {
+        $this->children[] = $node->setParent($this);
+        return $this;
+    }
+
+    /**
+     * Adds attributes to this node
+     *
+     * @param mixed $name Attribute name, or an associative array
+     * @param string $value Attribute value
+     */
+    public function attr($name, $value = null)
+    {
+        if (is_array($name)) {
+            $new_attributes = $name;
+        } else {
+            $new_attributes = [$name => $value];
+        }
+        $this->attributes += $new_attributes;
+
+        return $this;
+    }
+
+    /**
      * Returns the parent node.
      */
     public function parent() 
@@ -64,14 +92,26 @@ class Node
     }
 
     /**
-     * Properly encode a string for including in the XML
-     *
-     * FIX: Is necessary some kind of encoding?
-     *
+     * Properly encode a string to include in the XML
      */
-    private function encode($string)
+    protected function encode($string)
     {
-        return $string;
+        return htmlspecialchars($string, ENT_COMPAT | ENT_XML1);
+    }
+
+    /**
+     * Returns a variable="value" sequence from an associative array
+     *
+     * @param $attributes Associative array with XML attributes
+     * @return string Attributes string
+     */
+    protected function genAttributes(array $attributes)
+    {
+        $attr = [];
+        foreach ($attributes as $name => $value) {
+            $attr[] = $name . '="' . $this->encode($value) .'"';
+        }
+        return join(' ', $attr);
     }
 
     /**
@@ -91,11 +131,13 @@ class Node
         $tagname = $this->nodeName;
         if ($this->attributes) {
             
-            $attrs = [];
+            /*$attrs = [];
             foreach ($this->attributes as $name => $value) {
                 $attr[] = $name . '="' . $value .'"';
             }
-            $tagname .= ' ' . join(' ', $attr);
+            $tagname .= ' ' . join(' ', $attr);*/
+
+            $tagname .= ' ' . $this->genAttributes($this->attributes);
         }
 
         if ($has_content) {
@@ -116,5 +158,13 @@ class Node
         }
 
         return $xml;
+    }
+
+    /**
+     * Magic function when this object is used in string context
+     */
+    public function __toString()
+    {
+        return $this->getXML();
     }
 }
