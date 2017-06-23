@@ -30,6 +30,9 @@ class Node
 
     /**
      * Adds a child, returns the newly created node
+     *
+     * @see __construct()
+     * @return self Created node
      */
     public function child(...$params) 
     {
@@ -38,6 +41,9 @@ class Node
 
     /**
      * Adds a child, returns this node.
+     *
+     * @see __construct()
+     * @return self This node
      */
     public function add(...$params)
     {
@@ -48,6 +54,9 @@ class Node
     /**
      * Appends a existent child node and all its descendants. Returns
      * this node.
+     *
+     * @param self $node Node root to append.
+     * @return self This node.
      */
     public function append(Node $node)
     {
@@ -58,8 +67,9 @@ class Node
     /**
      * Adds attributes to this node
      *
-     * @param mixed $name Attribute name, or an associative array
-     * @param string $value Attribute value
+     * @param mixed $name Attribute name, or an associative array.
+     * @param string $value Attribute value.
+     * @return self This node.
      */
     public function attr($name, $value = null)
     {
@@ -75,6 +85,9 @@ class Node
 
     /**
      * Adds a comment child node. Return this node.
+     *
+     * @param string $text Comment node content.
+     * @return self This node.
      */
     public function comment($text)
     {
@@ -84,6 +97,8 @@ class Node
 
     /**
      * Returns the parent node.
+     * 
+     * @return self Parent node.
      */
     public function parent() 
     {
@@ -109,10 +124,10 @@ class Node
     }
 
     /**
-     * Returns a variable="value" sequence from an associative array
+     * Returns a variable="value" sequence from an associative array.
      *
-     * @param $attributes Associative array with XML attributes
-     * @return string Attributes string
+     * @param $attributes Associative array with XML attributes.
+     * @return string Attributes string.
      */
     protected function genAttributes(array $attributes)
     {
