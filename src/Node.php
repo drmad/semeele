@@ -186,7 +186,7 @@ class Node
 
             $xml .= '</' . $this->nodeName . '>';
         } else {
-            $xml = '<' . $tagname . ' />';
+            $xml = '<' . $tagname . '/>';
         }
 
         return $xml;

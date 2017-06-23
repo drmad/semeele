@@ -24,7 +24,7 @@ echo $xml->getXML();
 And that's it. This prints:
 
 ```xml
-<?xml version="1.0" encoding="utf-8"?><html><head><title>An XHTML</title><meta charset="utf-8" /></head><body><h1>An XHTML</h1><p>This is a XML-valid HTML. Yay!</p></body></html>
+<?xml version="1.0" encoding="utf-8"?><html><head><title>An XHTML</title><meta charset="utf-8"/></head><body><h1>An XHTML</h1><p>This is a XML-valid HTML. Yay!</p></body></html>
 ```
 
 ## Basic usage
