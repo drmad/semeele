@@ -8,9 +8,6 @@ It works with PHP 5.6 and newer versions.
 ## Example
 
 ```php
-require 'semeele/Node.php';
-require 'semeele/Document.php';
-
 $xml = new drmad\semeele\Document('html');
 $xml->child('head')
     ->add('title', 'An XHTML')
