@@ -1,5 +1,5 @@
 {
-    "name": "Semeele",
+    "name": "drmad/semeele",
     "description": "Extremely simple and minimalistic XML generator for PHP. Really, very simple.",
     "license": "GPL3",
     "keywords": ["xml", "php"],
