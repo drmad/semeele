@@ -52,6 +52,21 @@ class Node
     }
 
     /**
+     * Saves the actual node in a variable. 
+     *
+     * Useful when you're nested deep, and want to 'return' to some
+     * point.
+     *
+     * @param self $node Variable where this node should be saved.
+     * @return self This node
+     */
+    public function save(&$node)
+    {
+        $node = $this;
+        return $this;
+    }
+
+    /**
      * Appends a existent child node and all its descendants. Returns
      * this node.
      *
