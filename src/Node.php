@@ -135,7 +135,11 @@ class Node
      */
     protected function encode($string)
     {
-        return htmlspecialchars($string, ENT_COMPAT | ENT_XML1);
+        if ($string instanceof Cdata) {
+            return (string)$string;
+        } else {
+            return htmlspecialchars($string, ENT_COMPAT | ENT_XML1);
+        }
     }
 
     /**
