@@ -5,7 +5,7 @@ I was using the [native XML libraries](http://php.net/manual/es/refs.xml.php) to
 
 It works with PHP 5.6 and newer versions.
 
-## Example
+## Examples
 
 ```php
 $xml = new drmad\semeele\Document('html');
