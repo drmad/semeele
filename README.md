@@ -69,7 +69,7 @@ Base class for all nodes. Its constructor has this parameters:
 * `$content`: Optional. This is the node content. If an array is passed, is used instead the next parameter.
 * `$attributes`: Optional. Array with `['attribute name' => 'attribute value']`.
 
-This class has two main methods for add new children nodes: `child()` and `add()`. Both returns a new `Node` object (the newly created node, and the parent node, respectively), for chaining. All the arguments are passed to the `Node` constructor.
+This class has two main methods for add new children nodes: `child()` and `add()`. Both returns a `Node` object (the newly created node, and the parent node, respectively), for chaining. All the arguments are passed to the `Node` constructor.
 
 Other methods are:
 
