@@ -9,11 +9,11 @@ class Document extends Node
     /** XML declaration node, as a processing instruction */
     private $declaration;
 
-    public function __construct($rootNodeName, $version = '1.0', $encoding = 'utf-8')
+    public function __construct($rootNodeName, $version = '1.0', $encoding = 'UTF-8')
     {
         $this->declaration = new ProcessingInstruction('xml', null, compact('version', 'encoding'));
 
-        parent::__construct($rootNodeName);
+        parent::__construct($rootNodeName, null, [], $encoding);
     }
 
     /**

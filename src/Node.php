@@ -12,11 +12,13 @@ class Node
     protected $nodeName;
     protected $attributes = [];
     protected $content;
+    
+    protected $encoding;
 
     /**
      * Constructor
      */
-    public function __construct($nodeName, $content = null, $attributes = [])
+    public function __construct($nodeName, $content = null, $attributes = [], $encoding = 'UTF-8')
     {
         if (is_array($content)) {
             $attributes = $content;
@@ -26,6 +28,7 @@ class Node
         $this->nodeName = $nodeName;
         $this->content = $content;
         $this->attributes = $attributes;
+        $this->encoding = $encoding;
     }
 
     /**
@@ -36,7 +39,9 @@ class Node
      */
     public function child(...$params) 
     {
-        return $this->children[] = (new self(...$params))->setParent($this);
+        return $this->children[] = (new self(...$params))
+            ->setParent($this)
+            ->setEncoding($this->encoding);
     }
 
     /**
@@ -106,7 +111,9 @@ class Node
      */
     public function comment($text)
     {
-        $this->children[] = (new Comment($text))->setParent($this);
+        $this->children[] = (new Comment($text))
+            ->setParent($this)
+            ->setEncoding($this->encoding);
         return $this;
     }
 
@@ -129,7 +136,16 @@ class Node
         $this->parent = $parent;
         return $this;
     }
-
+    
+    /**
+     *  Sets the encoding of this node
+     */
+    protected function setEncoding($encoding)
+    {
+        $this->encoding = $encoding;    
+        return $this;
+    }
+    
     /**
      * Properly encode a string to include in the XML
      */
@@ -138,7 +154,11 @@ class Node
         if ($string instanceof Cdata) {
             return (string)$string;
         } else {
-            return htmlspecialchars($string, ENT_COMPAT | ENT_XML1);
+            return htmlspecialchars(
+                $string, 
+                ENT_COMPAT | ENT_XML1 | ENT_SUBSTITUTE | ENT_DISALLOWED,
+                $this->encoding
+            );
         }
     }
 
