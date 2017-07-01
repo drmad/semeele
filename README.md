@@ -30,13 +30,13 @@ And that's it. This prints:
 A more complex, real-life example, used in signed UBL documents:
 
 ```php
-$xml = new Node('ext:UBLExtension');
+$xml = new drmad\semeele\Node('ext:UBLExtension');
 $xml->child('ext:ExtensionContent')
     ->child('ds:Signature', ['Id' => 'Signature'])->save($s) // Save this node for later
         ->child('ds:SignedInfo')
-            ->add('ds:CanonicalizationMethod', 
+            ->add('ds:CanonicalizationMethod',
                 ['Algorithm'=>'http://www.w3.org/TR/2001/REC-xml-c14n-20010315'])
-            ->add('ds:SignatureMethod', 
+            ->add('ds:SignatureMethod',
                 ['Algorithm'=>'http://www.w3.org/2000/09/xmldsig#rsa-sha1'])
             ->child('ds:Reference', ['URI'=>''])
                 ->child('ds:Transforms')
@@ -59,40 +59,66 @@ Outputs:
 <ext:UBLExtension><ext:ExtensionContent><ds:Signature Id="Signature"><ds:SignedInfo><ds:CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/><ds:SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/><ds:Reference URI=""><ds:Transforms><ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/></ds:Transforms><ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/><ds:DigestValue/></ds:Reference></ds:SignedInfo><ds:SignatureValue/><ds:KeyInfo><ds:X509Data><ds:X509SubjectName/><ds:X509Certificate/></ds:X509Data></ds:KeyInfo></ds:Signature></ext:ExtensionContent></ext:UBLExtension>
 ```
 
-## Main classes
+## Installation and basic usage
+
+`Semeele` is available via [Composer](https://packagist.org/packages/drmad/semeele):
+
+```
+composer require drmad/semeele
+```
+
+Alternatively, you can `git clone` or download the ZIP from [GitHub](https://github.com/drmad/semeele), and use this simple autoloader function (update constant `SEMEELE_PATH` with the correct path as n):
+
+```php
+const SEMEELE_PATH = './semeele-master';
+
+spl_autoload_register(function($class) {
+    if (substr($class, 0, 13) == 'drmad\\semeele') {
+        $base_name = substr($class, strrpos($class, '\\') + 1);
+        $file_name = SEMEELE_PATH . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . $base_name . '.php';
+        if (file_exists($file_name)) {
+            require $file_name;
+        }
+    }
+});
+
+```
 
 ### `drmad\semeele\Node`
 
 Base class for all nodes. Its constructor has this parameters:
 
 * `$nodeName`: Required.
-* `$content`: Optional. This is the node content. If an array is passed, is used instead the next parameter.
-* `$attributes`: Optional. Array with `['attribute name' => 'attribute value']`.
+* `$content`: Optional. This is the node content. If an array is passed, is used instead the `$attribute` parameter.
+* `$attributes`: Optional. Array with `['attribute name' => 'attribute value']` structure.
+* `$encoding`: Optional. Defaults to 'UTF-8'. Used to reencode `$content`, and it's passed to child nodes created with `child()` and `add()` methods.
 
-This class has two main methods for add new children nodes: `child()` and `add()`. Both returns a `Node` object (the newly created node, and the parent node, respectively), for chaining. All the arguments are passed to the `Node` constructor.
+This class has two main methods for add new child nodes: `child()` and `add()`. Both returns a `Node` object, but `child()` returns the newly created node, and `add()` returns the current node, so you can keep adding new children to the same node.
 
-Other methods are:
+All the arguments of both methods are passed to the `Node` constructor.
 
-* `parent()`: Used for 'going up the chain': it returns the parent node, so you can create a new child with `child()`, for instance.
-* `append(Node $node)`: Adds an already created node and its children to this node child list. Returns this node.
-* `save(&$node)`: Save the node in $node. Useful for "returning" from a deep nested node.
+Other methods are (except otherwise noted, all methods returns the affected `Node` object):
+
+* `parent()`: Returns the parent node. Used for 'going up the chain', perhaps after finished a run of `add()` methods (take a look at the examples above).
+* `append(Node $node)`: Adds an already created node and its children to this node child tree.
+* `save(&$node)`: Save the node in `$node`. Useful for "returning" from a deep nested node.
 * `attr($name, $value)`: Adds new properties to this node. You can specify both arguments, or pass an associative array with multiple properties and values as first argument.
-* `comment($text)`: Adds a new `drmad\semeele\Comment` node, returns this node.
+* `comment($text)`: Adds a new `drmad\semeele\Comment` node.
 
 The final XML is generated with the `getXML()` method, or just using the object in a `string` context.
 
 ### `drmad\semeele\Document`
 
-This class extends `Node`, but creates a [XML declaration](https://en.wikipedia.org/wiki/XHTML#XML_declaration) (using a `drmad\semeele\ProcessingInstruction` class) before its content. Its constructor has these parameters:
+This class extends `Node`, and adds an [XML declaration](https://en.wikipedia.org/wiki/XHTML#XML_declaration) (using a `drmad\semeele\ProcessingInstruction` class) before the node content. Its constructor has these parameters:
 
 * `$rootNodeName`: Required. It will be the name of the main `Node` in the XML document.
 * `$version`: Optional. XML version, defaults to `1.0`.
-* `$encoding`: Optional. XML encoding, defaults to `utf-8`.
+* `$encoding`: Optional. XML encoding, defaults to `UTF-8`.
 
 You can obtain the XML declaration node with `getDeclaration()`, perhaps to add new attributes, etc.
 
 ### `drmad\semeele\Cdata`
-Used instead a string for a CDATA value. Only useful if a human needs to read the XML, because all string are always converted to XML-valid characters. E.g.:
+Used instead a string for a CDATA value. Only useful if a human needs to read the XML, because all string are always converted to XML entities when needed. E.g.:
 
 ```php
 $xml = new drmad\semeele\Node('test');
