@@ -67,7 +67,7 @@ Outputs:
 composer require drmad/semeele
 ```
 
-Alternatively, you can `git clone` or download the ZIP from [GitHub](https://github.com/drmad/semeele), and use this simple autoloader function (update constant `SEMEELE_PATH` with the correct path as n):
+Alternatively, you can `git clone` or download the ZIP from [GitHub](https://github.com/drmad/semeele), and use this simple autoloader function (update constant `SEMEELE_PATH` with the correct path as needed):
 
 ```php
 const SEMEELE_PATH = './semeele-master';
