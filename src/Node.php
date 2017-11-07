@@ -11,7 +11,7 @@ class Node
     
     protected $nodeName;
     protected $attributes = [];
-    protected $content;
+    protected $content = null;
     
     protected $encoding;
 
@@ -189,7 +189,7 @@ class Node
             throw new \RuntimeException("A node can't have both children and content.");
         }
 
-        $has_content = $this->children || $this->content;
+        $has_content = $this->children || !is_null($this->content);
         
         $tagname = $this->nodeName;
         if ($this->attributes) {
@@ -199,7 +199,7 @@ class Node
         if ($has_content) {
             $xml = '<' . $tagname . '>';
 
-            if ($this->content) {
+            if (!is_null($this->content)) {
                 $xml .= $this->encode($this->content);
             }
             if ($this->children) {
