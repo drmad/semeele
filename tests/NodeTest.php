@@ -13,7 +13,7 @@ final class NodeTest extends TestCase
             '<Node/>'
         );
     }
-    
+
     public function testEmptyNode()
     {
         $this->assertEquals(
@@ -21,12 +21,20 @@ final class NodeTest extends TestCase
             '<EmptyNode></EmptyNode>'
         );
     }
-    
+
     public function testZeroValueNode()
     {
         $this->assertEquals(
             (string)(new Node('ZeroNode', 0)),
             '<ZeroNode>0</ZeroNode>'
         );
-    }    
+    }
+
+    public function testEncoding()
+    {
+        $this->assertEquals(
+            (string)(new Node("Encoded", "ñandú"))->setEncoding('iso-8859-1'),
+            mb_convert_encoding('<Encoded>ñandú</Encoded>', 'iso-8859-1')
+        );
+    }
 }
