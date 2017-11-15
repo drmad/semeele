@@ -8,11 +8,11 @@ class Node
 {
     protected $parent;
     protected $children = [];
-    
+
     protected $nodeName;
     protected $attributes = [];
     protected $content = null;
-    
+
     protected $encoding;
 
     /**
@@ -37,7 +37,7 @@ class Node
      * @see __construct()
      * @return self Created node
      */
-    public function child(...$params) 
+    public function child(...$params)
     {
         return $this->children[] = (new self(...$params))
             ->setParent($this)
@@ -57,7 +57,7 @@ class Node
     }
 
     /**
-     * Saves the actual node in a variable. 
+     * Saves the actual node in a variable.
      *
      * Useful when you're nested deep, and want to 'return' to some
      * point.
@@ -119,33 +119,33 @@ class Node
 
     /**
      * Returns the parent node.
-     * 
+     *
      * @return self Parent node.
      */
-    public function parent() 
+    public function parent()
     {
         return $this->parent;
     }
 
     /**
-     * Sets a parent node. Used for maintain the chain in new 
+     * Sets a parent node. Used for maintain the chain in new
      * inserted nodes.
      */
-    protected function setParent(Node $parent) 
+    protected function setParent(Node $parent)
     {
         $this->parent = $parent;
         return $this;
     }
-    
+
     /**
      *  Sets the encoding of this node
      */
-    protected function setEncoding($encoding)
+    public function setEncoding($encoding)
     {
-        $this->encoding = $encoding;    
+        $this->encoding = $encoding;
         return $this;
     }
-    
+
     /**
      * Properly encode a string to include in the XML
      */
@@ -155,7 +155,7 @@ class Node
             return (string)$string;
         } else {
             return htmlspecialchars(
-                $string, 
+                mb_convert_encoding($string, $this->encoding),
                 ENT_COMPAT | ENT_XML1 | ENT_SUBSTITUTE | ENT_DISALLOWED,
                 $this->encoding
             );
@@ -190,7 +190,7 @@ class Node
         }
 
         $has_content = $this->children || !is_null($this->content);
-        
+
         $tagname = $this->nodeName;
         if ($this->attributes) {
             $tagname .= ' ' . $this->genAttributes($this->attributes);

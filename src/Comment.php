@@ -8,6 +8,6 @@ class Comment extends ChildlessNode
 {
     public function getXML()
     {
-        return '<!-- ' . $this->nodeName . ' -->';
+        return '<!-- ' . $this->encode($this->nodeName) . ' -->';
     }
 }
