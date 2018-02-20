@@ -1,7 +1,7 @@
 {
     "name": "drmad/semeele",
     "description": "Extremely simple and minimalistic XML generator for PHP. Really, very simple.",
-    "license": "GPL3",
+    "license": "GPL-3.0-or-later",
     "keywords": ["xml", "php"],
     "authors": [
         {
