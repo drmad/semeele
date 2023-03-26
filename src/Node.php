@@ -1,5 +1,6 @@
 <?php
-namespace drmad\semeele;
+
+namespace Drmad\Semeele;
 
 /**
  * XML node representation
@@ -18,7 +19,12 @@ class Node
     /**
      * Constructor
      */
-    public function __construct($nodeName, $content = null, $attributes = [], $encoding = 'UTF-8')
+    public function __construct(
+        $nodeName,
+        $content = null,
+        $attributes = [],
+        $encoding = 'UTF-8'
+    )
     {
         if (is_array($content)) {
             $attributes = $content;

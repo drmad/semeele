@@ -1,8 +1,9 @@
 <?php
-namespace drmad\semeele;
+
+namespace Drmad\Semeele;
 
 /**
- * CDATA value 
+ * CDATA value
  */
 class Cdata
 {

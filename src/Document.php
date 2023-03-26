@@ -1,5 +1,6 @@
 <?php
-namespace drmad\semeele;
+
+namespace Drmad\Semeele;
 
 /**
  * XML root node representation which include a prolog tag
@@ -9,7 +10,11 @@ class Document extends Node
     /** XML declaration node, as a processing instruction */
     private $declaration;
 
-    public function __construct($rootNodeName, $version = '1.0', $encoding = 'UTF-8')
+    public function __construct(
+        $rootNodeName,
+        $version = '1.0',
+        $encoding = 'UTF-8'
+    )
     {
         $this->declaration = new ProcessingInstruction('xml', null, compact('version', 'encoding'));
 

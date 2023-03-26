@@ -1,5 +1,6 @@
 <?php
-namespace drmad\semeele;
+
+namespace Drmad\Semeele;
 
 /**
  * An XML comment

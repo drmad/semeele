@@ -8,7 +8,7 @@ It works with PHP 5.6 and newer versions, with `mbstring` extension enabled.
 ## Examples
 
 ```php
-$xml = new drmad\semeele\Document('html');
+$xml = new Drmad\Semeele\Document('html');
 $xml->child('head')
     ->add('title', 'An XHTML')
     ->add('meta', ['charset' => 'utf-8'])
@@ -21,7 +21,7 @@ $xml->child('head')
 echo $xml->getXML();
 ```
 
-And that's it. This prints:
+And that's it. That prints:
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?><html><head><title>An XHTML</title><meta charset="utf-8"/></head><body><h1>An XHTML</h1><p>This is a XML-valid HTML. Yay!</p></body></html>
@@ -30,7 +30,7 @@ And that's it. This prints:
 A more complex, real-life example, used in signed UBL documents:
 
 ```php
-$xml = new drmad\semeele\Node('ext:UBLExtension');
+$xml = new Drmad\Semeele\Node('ext:UBLExtension');
 $xml->child('ext:ExtensionContent')
     ->child('ds:Signature', ['Id' => 'Signature'])->save($s) // Save this node for later
         ->child('ds:SignedInfo')
@@ -73,7 +73,7 @@ Alternatively, you can `git clone` or download the ZIP from [GitHub](https://git
 const SEMEELE_PATH = './semeele-master';
 
 spl_autoload_register(function($class) {
-    if (substr($class, 0, 13) == 'drmad\\semeele') {
+    if (substr($class, 0, 13) == 'Drmad\\Semeele') {
         $base_name = substr($class, strrpos($class, '\\') + 1);
         $file_name = SEMEELE_PATH . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . $base_name . '.php';
         if (file_exists($file_name)) {
@@ -84,16 +84,16 @@ spl_autoload_register(function($class) {
 
 ```
 
-### `drmad\semeele\Node`
+### `Drmad\Semeele\Node`
 
-Base class for all nodes. Its constructor has this parameters:
+Base class for all nodes. Its constructor has these parameters:
 
 * `$nodeName`: Required.
-* `$content`: Optional. This is the node content. If an array is passed, is used instead the `$attribute` parameter.
+* `$content`: Optional. This is the node content. If an array is passed, it's used instead the `$attribute` parameter.
 * `$attributes`: Optional. Array with `['attribute name' => 'attribute value']` structure.
 * `$encoding`: Optional. Defaults to 'UTF-8'. Used to reencode `$content`, and it's passed to child nodes created with `child()` and `add()` methods.
 
-This class has two main methods for add new child nodes: `child()` and `add()`. Both returns a `Node` object, but `child()` returns the newly created node, and `add()` returns the current node, so you can keep adding new children to the same node.
+This class has two main methods for adding new child nodes: `child()` and `add()`. Both returns a `Node` object, but `child()` returns the newly created node, and `add()` returns the current node, so you can keep adding new children to the same node.
 
 All the arguments of both methods are passed to the `Node` constructor.
 
@@ -101,15 +101,15 @@ Other methods are (except otherwise noted, all methods returns the affected `Nod
 
 * `parent()`: Returns the parent node. Used for 'going up the chain', perhaps after finished a run of `add()` methods (take a look at the examples above).
 * `append(Node $node)`: Adds an already created node and its children to this node child tree.
-* `save(&$node)`: Save the node in `$node`. Useful for "returning" from a deep nested node.
+* `save(&$node)`: Saves the node in `$node`. Useful for "returning" from a deep nested node.
 * `attr($name, $value)`: Adds new properties to this node. You can specify both arguments, or pass an associative array with multiple properties and values as first argument.
-* `comment($text)`: Adds a new `drmad\semeele\Comment` node.
+* `comment($text)`: Adds a new `Drmad\Semeele\Comment` node.
 
 The final XML is generated with the `getXML()` method, or just using the object in a `string` context.
 
-### `drmad\semeele\Document`
+### `Drmad\Semeele\Document`
 
-This class extends `Node`, and adds an [XML declaration](https://en.wikipedia.org/wiki/XHTML#XML_declaration) (using a `drmad\semeele\ProcessingInstruction` class) before the node content. Its constructor has these parameters:
+This class extends `Node`, and adds an [XML declaration](https://en.wikipedia.org/wiki/XHTML#XML_declaration) (using a `Drmad\Semeele\ProcessingInstruction` class) before the node content. Its constructor has these parameters:
 
 * `$rootNodeName`: Required. It will be the name of the main `Node` in the XML document.
 * `$version`: Optional. XML version, defaults to `1.0`.
@@ -117,13 +117,13 @@ This class extends `Node`, and adds an [XML declaration](https://en.wikipedia.or
 
 You can obtain the XML declaration node with `getDeclaration()`, perhaps to add new attributes, etc.
 
-### `drmad\semeele\Cdata`
-Used instead a string for a CDATA value. Only useful if a human needs to read the XML, because all string are always converted to XML entities when needed. E.g.:
+### `Drmad\Semeele\Cdata`
+Creates a CDATA value for escaping strings. Only useful if a human needs to read the XML, because all strings are always converted to XML entities when needed. E.g.:
 
 ```php
-$xml = new drmad\semeele\Node('test');
+$xml = new Drmad\Semeele\Node('test');
 $xml->add('without_cdata', 'Love this song from <strong>KC & The Sunshine</strong>')
-    ->add('with_cdata', new drmad\semeele\Cdata('Love that song from <strong>KC & The Sunshine</strong>'))
+    ->add('with_cdata', new Drmad\Semeele\Cdata('Love that song from <strong>KC & The Sunshine</strong>'))
 ;
 echo $xml;
 ```

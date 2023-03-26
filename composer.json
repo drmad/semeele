@@ -15,7 +15,7 @@
     },
     "autoload": {
         "psr-4": {
-            "drmad\\semeele\\": "src"
+            "Drmad\\Semeele\\": "src"
         }
     }
 }

@@ -1,5 +1,6 @@
-<?php 
-namespace drmad\semeele;
+<?php
+
+namespace Drmad\Semeele;
 
 /**
  * XML Processing instruction
